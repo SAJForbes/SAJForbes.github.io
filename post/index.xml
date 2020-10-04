@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>learning on S A J Forbes</title>
-    <link>https://SAJForbes.github.io/tags/learning/</link>
-    <description>Recent content in learning on S A J Forbes</description>
+    <title>Posts on S A J Forbes</title>
+    <link>https://SAJForbes.github.io/post/</link>
+    <description>Recent content in Posts on S A J Forbes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© S A J Forbes 2020</copyright>
-    <lastBuildDate>Fri, 02 Oct 2020 17:46:11 +1200</lastBuildDate><atom:link href="https://SAJForbes.github.io/tags/learning/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Oct 2020 17:46:11 +1200</lastBuildDate><atom:link href="https://SAJForbes.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Why Adults Make Mistakes When Children Don&#39;t</title>
       <link>https://SAJForbes.github.io/why-adults-make-mistakes-when-children-dont/</link>
@@ -17,6 +17,19 @@
       <description>Let me introduce you to an often-posed question in the language learning community: Why do children seem to have a natural ability to learn languages perfectly that adults lack? Are their brains inherently better at language learning than us adults, or are they better positioned to take advantage of a natural ability we all possess?
 Wherever you fall, most people tend to say the answer is something in-between.
 While I can&amp;rsquo;t discount that children have some natural advantages due to their age, in this post I&amp;rsquo;m going to argue that it&amp;rsquo;s their environment rather than innate talent that lets children learn to such a high level, and we can take advantage of this to inform how we learn.</description>
+    </item>
+    
+    <item>
+      <title>How to Teach Yourself a Foreign Language</title>
+      <link>https://SAJForbes.github.io/how-to-teach-yourself-a-foreign-language/</link>
+      <pubDate>Thu, 01 Oct 2020 08:54:24 +0200</pubDate>
+      
+      <guid>https://SAJForbes.github.io/how-to-teach-yourself-a-foreign-language/</guid>
+      <description>My ebook, How to Teach Yourself a Foreign Language is available now for free online.
+You can one-click download from GitHub with this link.
+You can find the GitHub repository here if you want to check the file first.
+Support If you would like to offer a monetary donation or elect to receive email updates when a new version is released, you can find the book on Leanpub.
+Access the ebook on Leanpub here</description>
     </item>
     
   </channel>
