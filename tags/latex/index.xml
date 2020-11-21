@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LaTeX on S A J Forbes</title>
+    <link>https://SAJForbes.github.io/tags/latex/</link>
+    <description>Recent content in LaTeX on S A J Forbes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© S A J Forbes 2020</copyright>
+    <lastBuildDate>Sat, 03 Oct 2020 10:54:24 +0200</lastBuildDate><atom:link href="https://SAJForbes.github.io/tags/latex/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using regular expressions in Python to fix complex formatting issues</title>
+      <link>https://SAJForbes.github.io/using-regular-expressions-in-python-to-fix-complex-formatting-issues/</link>
+      <pubDate>Sat, 03 Oct 2020 10:54:24 +0200</pubDate>
+      
+      <guid>https://SAJForbes.github.io/using-regular-expressions-in-python-to-fix-complex-formatting-issues/</guid>
+      <description>test
+Step 1: read
+ test test2  sub Test
+subsub Tester!</description>
+    </item>
+    
+  </channel>
+</rss>

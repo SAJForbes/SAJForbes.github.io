@@ -1,0 +1,20 @@
+---
+author: ""
+date: 2020-10-03T17:46:11+12:00
+draft: true
+title: "LanguageLearning Subreddit Test"
+slug: "LanguageLearning-Subreddit-Test"
+tags: ["language learning","LanguageLearning","Subreddit","Survey","data","analysis"]
+image: "images/cover2.png"
+comments: false     # set false to hide Disqus comments
+share: true        # set false to share buttons
+menu: ""
+---
+
+# Test
+# Test
+Test text
+
+{{< highlight py3 >}}
+// import re
+{{< / highlight >}}

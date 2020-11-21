@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data on S A J Forbes</title>
+    <link>https://SAJForbes.github.io/tags/data/</link>
+    <description>Recent content in data on S A J Forbes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© S A J Forbes 2020</copyright>
+    <lastBuildDate>Sat, 03 Oct 2020 17:46:11 +1200</lastBuildDate><atom:link href="https://SAJForbes.github.io/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LanguageLearning Subreddit Survey Exploratory Analysis</title>
+      <link>https://SAJForbes.github.io/languagelearning-subreddit-survey-exploratory-analysis/</link>
+      <pubDate>Sat, 03 Oct 2020 17:46:11 +1200</pubDate>
+      
+      <guid>https://SAJForbes.github.io/languagelearning-subreddit-survey-exploratory-analysis/</guid>
+      <description>Welcome to this analysis of the /r/languagelearning subreddit survey data. Before I begin I should mention a bit about myself. In addition to my role as the moderator of the /r/languagelearning subreddit on reddit, I am also the author of the ebook How to Teach Yourself a Foreign Language, which is available for free on my website. I am also a data analyst in my real life.
+This post is intended to help give people an overview of the survey data, as well as show anyone interested how they can do so using Python.</description>
+    </item>
+    
+  </channel>
+</rss>
