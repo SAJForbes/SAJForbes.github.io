@@ -31,7 +31,7 @@
     
     <meta property="og:description" content="" />
   	<meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2020-10-03T17:46:11&#43;12:00" />
+    <meta property="article:published_time" content="2020-11-27T10:46:11&#43;12:00" />
 
     
     <meta property="article:tag" content="language learning" />
@@ -121,15 +121,15 @@
     },
     "headline": "LanguageLearning Subreddit Survey Exploratory Analysis",
     "name": "LanguageLearning Subreddit Survey Exploratory Analysis",
-    "wordCount":  938 ,
+    "wordCount":  963 ,
     "timeRequired": "PT5M",
     "inLanguage": {
       "@type": "Language",
       "alternateName": "en"
     },
     "url": "https://SAJForbes.github.io/languagelearning-subreddit-survey-exploratory-analysis/",
-    "datePublished": "2020-10-03T17:46Z",
-    "dateModified": "2020-10-03T17:46Z",
+    "datePublished": "2020-11-27T10:46Z",
+    "dateModified": "2020-11-27T10:46Z",
     
     "image": {
         "@type": "ImageObject",
@@ -184,7 +184,7 @@
         
             <h3>Projects</h3>
             <li class="nav-opened" role="presentation">
-            	<a href="/ebook">Teach yourself a language</a>
+            	<a href="/ebook">Learn a lang ebook</a>
             </li>
         
             <h3>Follow me</h3>
@@ -256,8 +256,8 @@
 
         <section class="post-meta">
         
-          <time class="post-date" datetime="2020-10-03T17:46:11&#43;12:00">
-            Oct 3, 2020
+          <time class="post-date" datetime="2020-11-27T10:46:11&#43;12:00">
+            Nov 27, 2020
           </time>
         
          
@@ -278,7 +278,10 @@
 
     <section class="post-content">
       <p>Welcome to this analysis of the /r/languagelearning subreddit survey data. Before I begin I should mention a bit about myself. In addition to my role as the moderator of <a href="https://www.reddit.com/r/languagelearning/">the /r/languagelearning subreddit on reddit</a>, I am also the author of the ebook <a href="https://sajforbes.github.io/ebook/">How to Teach Yourself a Foreign Language</a>, which is available for free on my website. I am also a data analyst in my real life.</p>
-<p>This post is intended to help give people an overview of the survey data, as well as show anyone interested how they can do so using Python.</p>
+<p>The survey was taken on September/October 2019 by the users of the /r/LanguageLearning subreddit. The Google forms analysis is available <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZX3kskGxBtIL-R-iXZfx0RzSs3c_IYkAtEgdcoJJ46whZAA/viewanalytics?usp=form_confirm">here</a></p>
+<p>In addition to sharing the results of the survey, this post is intended to help give people an idea of how data is analysed using Python.</p>
+<p>Some of the dataframes do not render in this blog due to its use of Markdown language. If you would like to view those, you can go to the <a href="https://github.com/SAJForbes/Data/blob/main/LanguageLearning%20Analysis.ipynb">project on GitHub</a>.</p>
+<h2 id="getting-started">Getting Started</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
 <span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
 <span style="color:#f92672">import</span> seaborn <span style="color:#f92672">as</span> sns
@@ -288,22 +291,12 @@ sns<span style="color:#f92672">.</span>set(color_codes<span style="color:#f92672
 </code></pre></div><p>First we need to view our data to get a quick idea of what is in it.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;.spyder-py3\surveyfull2.csv&#34;</span>)
 df<span style="color:#f92672">.</span>head()
-</code></pre></div><!-- raw HTML omitted -->
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+</code></pre></div><p>[Dataframe not visible in blog]</p>
 <p>Let&rsquo;s look at the data dimensionality.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df<span style="color:#f92672">.</span>shape
 </code></pre></div><pre><code>(844, 34)
 </code></pre>
-<p>And get some more info</p>
+<p>And get some more info:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df<span style="color:#f92672">.</span>info()
 </code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 844 entries, 0 to 843
@@ -345,48 +338,44 @@ studied_in_uni                 831 non-null object
 dtypes: float64(28), object(6)
 memory usage: 224.3+ KB
 </code></pre>
-<p>Now we need to get an overview of the data</p>
+<h2 id="overview">Overview</h2>
+<p>Now we need to get an overview of the data.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df<span style="color:#f92672">.</span>describe(include<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;all&#39;</span>)
-</code></pre></div><!-- raw HTML omitted -->
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<p>Already there&rsquo;s a lot of information if you know what the columns mean. The *rank_* questions asked people how they ranked the importance of certain aspects for learning from 1 to 7. 1 being not at all important and 7 being very important. You can see, for example, that people on average ranked motivation (mean = 6.6) far more highly than natural talent (mean = 3.4).</p>
-<p>*self_* questions ask people to rank their themselves from 1 to 7 on any trait. For example, *self_important_fluent* asks people how important reaching fluency is to them.</p>
-<p>We can also see some oddities. You might have noticed there is a blank column and that somebody stated they studied for 72,000 minutes per day&mdash;that&rsquo;s 1,200 hours day. Stated differently, this person claims to study 50 days every day! Now that&rsquo;s efficiency!</p>
+</code></pre></div><p>[Dataframe not visible in blog]</p>
+<p>Already there&rsquo;s a lot of information if you know what the columns mean. The &ldquo;rank_&rdquo; questions asked people how they ranked the importance of certain aspects for learning from 1 to 7. 1 being not at all important and 7 being very important. You can see, for example, that people on average ranked motivation (mean = 6.6) far more highly than natural talent (mean = 3.4).</p>
+<p>&ldquo;self_&rdquo; questions ask people to rank their themselves from 1 to 7 on any trait. For example, &ldquo;self_important_fluent&rdquo; asks people how important reaching fluency is to them.</p>
+<p>We can also see some oddities. You might have noticed there is a blank column. In addition, somebody stated they studied for 72,000 minutes per day&mdash;that&rsquo;s 1,200 hours day. Stated differently, this person claims to study 50 days, every day! Now that&rsquo;s efficiency!</p>
+<h2 id="cleaning">Cleaning</h2>
 <p>Before we do further analysis let&rsquo;s do some quick cleaning.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#34;level_education.1&#34;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e"># duplciate column</span>
 df <span style="color:#f92672">=</span> df[df<span style="color:#f92672">.</span>mins_per_day <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">14</span><span style="color:#f92672">*</span><span style="color:#ae81ff">60</span>] <span style="color:#75715e"># Study over 14 hours per day ignored</span>
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df<span style="color:#f92672">.</span>describe()
-</code></pre></div><!-- raw HTML omitted -->
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
+</code></pre></div><p>[Dataframe not visible in blog]</p>
+<h2 id="analysis">Analysis</h2>
+<p>Now having removed the most egregious survey entries. Let&rsquo;s take a closer look at some of the stats to learn a bit about the people who took the survey.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots()
+ax<span style="color:#f92672">.</span>hist(df[<span style="color:#e6db74">&#39;Age&#39;</span>],bins<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>)
+ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Age of LL subreddit&#39;</span>)
+ax<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;Age&#39;</span>)
+ax<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Respondents&#39;</span>)
+</code></pre></div><pre><code>Text(0, 0.5, 'Respondents')
 </code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<p>Now having removed the most eggregious survey entries. Let&rsquo;s take a closer look at some of the stats.</p>
+<p><img src="/images/llanalysis1/output_14_1.png" alt="png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots()
+
+ax<span style="color:#f92672">.</span>scatter(df[<span style="color:#e6db74">&#39;Age&#39;</span>],df[<span style="color:#e6db74">&#39;mins_per_day&#39;</span>])
+ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Age of LL subreddit&#39;</span>)
+ax<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;Age&#39;</span>)
+ax<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;mins per day&#39;</span>)
+</code></pre></div><pre><code>Text(0, 0.5, 'mins per day')
+</code></pre>
+<p><img src="/images/llanalysis1/output_15_1.png" alt="png"></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span>df[<span style="color:#e6db74">&#39;mins_per_day&#39;</span>])
 
 </code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2eb0f7c0ac8&gt;
 </code></pre>
-<p><img src="output_14_1.png" alt="png"></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span>df[<span style="color:#e6db74">&#39;total_langs&#39;</span>])
-</code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2eb0f7ce710&gt;
-</code></pre>
-<p><img src="image/output_15_1.png" alt="png"></p>
-<p>Let&rsquo;s look at how many languages our survey respondents claim to know.</p>
+<p><img src="/images/llanalysis1/output_16_1.png" alt="png"></p>
+<p>We can also view the number of languages our survey respondents claim to know.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">col <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>
 df_rank1 <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>iloc[:,col]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>sort_index()
 <span style="color:#66d9ef">print</span>(df_rank1)
@@ -414,46 +403,22 @@ plt<span style="color:#f92672">.</span>show()
 20.0      2
 Name: total_langs, dtype: int64
 </code></pre>
-<p><img src="output_17_1.png" alt="png"></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots()
-ax<span style="color:#f92672">.</span>hist(df[<span style="color:#e6db74">&#39;Age&#39;</span>],bins<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>)
-ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Age of LL subreddit&#39;</span>)
-ax<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;Age&#39;</span>)
-ax<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Respondents&#39;</span>)
-</code></pre></div><pre><code>Text(0, 0.5, 'Respondents')
+<p><img src="/images/llanalysis1/output_18_1.png" alt="png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span>df[<span style="color:#e6db74">&#39;total_langs&#39;</span>])
+</code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2eb0f7ce710&gt;
 </code></pre>
-<p><img src="output_18_1.png" alt="png"></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots()
-
-ax<span style="color:#f92672">.</span>scatter(df[<span style="color:#e6db74">&#39;Age&#39;</span>],df[<span style="color:#e6db74">&#39;mins_per_day&#39;</span>])
-ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Age of LL subreddit&#39;</span>)
-ax<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;Age&#39;</span>)
-ax<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;mins per day&#39;</span>)
-</code></pre></div><pre><code>Text(0, 0.5, 'mins per day')
-</code></pre>
-<p><img src="output_19_1.png" alt="png"></p>
-<p>That should do for a rough overview of what our data looks like. We&rsquo;re going to do some more complex detailing and analysis of the different categories in another post. As a quick overview I thought it would be interesting to show you a correlation heatmap of the data.</p>
+<p><img src="/images/llanalysis1/output_19_1.png" alt="png"></p>
+<p>That should do for a rough overview of what our data looks like. We&rsquo;re going to do some more complex detailing and analysis of the different categories in another post. As a sneak peak I thought it would be interesting to show you a correlation heatmap of the data.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">30</span>,<span style="color:#ae81ff">15</span>))
 heatmp <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>corr()
 sns<span style="color:#f92672">.</span>heatmap(heatmp,cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;BrBG&#34;</span>,annot<span style="color:#f92672">=</span>True)
 heatmp
-</code></pre></div><!-- raw HTML omitted -->
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
-</code></pre>
-<p><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<p><img src="output_21_1.png" alt="png"></p>
+</code></pre></div><p><img src="/images/llanalysis1/output_21_1.png" alt="png"></p>
 <p>Some interesting correlations stand out. For example:</p>
 <ul>
 <li>People who rank themselves as talented are more likely to say that talent is an important factor in determining success.</li>
 <li>People who felt that studying grammar was important also tended to recommend drilling vocabulary.</li>
-<li>People who rank the environment as being important also rended to rank having a teacher as important also.</li>
+<li>People who rank the environment as being important also tended to rank having a teacher as important also.</li>
 <li>There is a strong correlation between a variety of self-rankings around high success, talent, motivation, and enjoyment. This grouping was also more likely to report finding language learning easy.</li>
 <li>People who said they struggled with committing to a single language also tended to speak more languages at a beginner level, but this did not extend to a strong correlation with fluent-level languages. They also reported learning more languages at the same time. Surprise, surprise!</li>
 <li>It is hard to find any correlation between the number of fluent non-native languages and the types of strategies people tend to recommend. It seems like anything can work.</li>
@@ -532,17 +497,10 @@ heatmp
 
   <aside class="read-next">
   
-      <a class="read-next-story" style="background-image: url(/images/cover2.png)" href="/using-regular-expressions-in-python-to-fix-complex-formatting-issues/">
-          <section class="post">
-              <h2>Using regular expressions in Python to fix complex formatting issues</h2>
-              
-          </section>
-      </a>
   
-  
-      <a class="read-next-story prev" style="background-image: url(/images/adults-children.jpg)" href="/why-adults-make-mistakes-when-children-dont/">
+      <a class="read-next-story prev" style="background-image: url(/images/language-time.jpg)" href="/what-language-learning-method-should-i-pick/">
           <section class="post">
-              <h2>Why Adults Make Mistakes When Children Don&#39;t</h2>
+              <h2>What Language LEarning Method Should I Pick</h2>
           </section>
       </a>
   
