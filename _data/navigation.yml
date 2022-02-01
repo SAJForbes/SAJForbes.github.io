@@ -1,0 +1,64 @@
+# main links
+main:
+  - title: "Home"
+    url: /index/
+  - title: "About"
+    url: /_pages/about/
+  - title: "Posts"
+    url: /_pages/posts/
+  - title: "Contact"
+    url: /_pages/contact/
+  - title: "Tags"
+    url: /_pages/tags/
+  - title: "Language Guide"
+    url: /_pages/languageguide/
+
+guide:
+  - Intro: Introduction
+    children:
+      - title: "Introduction"
+        url: /_pages/languageguide/
+      - title: "Before You Start"
+        url: /assets/docs/languageguide/beforeyoustart/
+  - title: Getting Started
+    children:
+      - title: "Resources"
+        url: /assets/docs/languageguide/resources/
+      - title: "Building a method"
+        url: /assets/docs/languageguide/method/
+  - title: Advice for Beginners
+    children:
+      - title: "Using resources effectively"
+        url: /assets/docs/languageguide/usingresourceseffectively/
+      - title: "How to Learn Your Language"
+        url: /assets/docs/languageguide/howtolearn/
+      - title: "Key Activities"
+        url: /assets/docs/languageguide/keyactivities/
+  - title: Intermediate Stages
+    children:
+      - title: "Moving to the Intermediate Stage"
+        url: /assets/docs/languageguide/intermediatestage/
+      - title: "Choosing What to Study"
+        url: /assets/docs/languageguide/whattostudy/
+      - title: "Mistakes"
+        url: /assets/docs/languageguide/mistakes/
+      - title: "Final Chapter"
+        url: /assets/docs/languageguide/finalchapter/
+  - title: Appendices
+    children:
+      - title: "Appendix A: How to Learn Pronunciation"
+        url: /assets/docs/languageguide/appendixa/
+      - title: "Appendix B: The Core Resources"
+        url: /assets/docs/languageguide/appendixb/
+      - title: "Appendix C: Further Advice on Learning Vocabulary"
+        url: /assets/docs/languageguide/appendixc/
+      - title: "Appendix D: How the Brain Learns"
+        url: /assets/docs/languageguide/appendixd/
+      - title: "Appendix E: Common Questions"
+        url: /assets/docs/languageguide/appendixe/
+      - title: "Appendix F: The Principles"
+        url: /assets/docs/languageguide/appendixf/
+      - title: "Appendix G: Recommended Reading"
+        url: /assets/docs/languageguide/appendixg/
+      - title: "Appendix H: Choosing a Language"
+        url: /assets/docs/languageguide/appendixh/
