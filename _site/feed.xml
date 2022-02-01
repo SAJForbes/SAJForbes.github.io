@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-01T17:42:20+13:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">S A J Forbes</title><subtitle></subtitle><author><name>S A J Forbes</name></author><entry><title type="html">LanguageLearning Subreddit Survey Exploratory Analysis</title><link href="http://localhost:4000/dataanalysis/LanguageLearning-Subreddit-Survey-Exploratory-Analysis/" rel="alternate" type="text/html" title="LanguageLearning Subreddit Survey Exploratory Analysis" /><published>2020-11-27T11:46:11+13:00</published><updated>2020-11-27T11:46:11+13:00</updated><id>http://localhost:4000/dataanalysis/LanguageLearning-Subreddit-Survey-Exploratory-Analysis</id><content type="html" xml:base="http://localhost:4000/dataanalysis/LanguageLearning-Subreddit-Survey-Exploratory-Analysis/"><![CDATA[<p>Welcome to this analysis of the /r/languagelearning subreddit survey data. Before I begin I should mention a bit about myself. In addition to my role as the moderator of <a href="https://www.reddit.com/r/languagelearning/">the /r/languagelearning subreddit on reddit</a>, I am also the author of the ebook <a href="https://sajforbes.github.io/ebook/">How to Teach Yourself a Foreign Language</a>, which is available for free on my website. I am also a data analyst in my real life.</p>
+
+<p>The survey was taken on September/October 2019 by the users of the /r/LanguageLearning subreddit. The Google forms analysis is available <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZX3kskGxBtIL-R-iXZfx0RzSs3c_IYkAtEgdcoJJ46whZAA/viewanalytics?usp=form_confirm">here</a></p>
+
+<p>In addition to sharing the results of the survey, this post is intended to help give people an idea of how data is analysed using Python.</p>
+
+<p>Some of the dataframes do not render in this blog due to its use of Markdown language. If you would like to view those, you can go to the <a href="https://github.com/SAJForbes/Data/blob/main/LanguageLearning%20Analysis.ipynb">project on GitHub</a>.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>     
+<span class="n">sns</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>First we need to view our data to get a quick idea of what is in it.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">".spyder-py3\surveyfull2.csv"</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>[Dataframe not visible in blog]</p>
+
+<p>Let’s look at the data dimensionality.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(844, 34)
+</code></pre></div></div>
+
+<p>And get some more info:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 844 entries, 0 to 843
+Data columns (total 34 columns):
+Age                            815 non-null float64
+selftaught_to_nonselftaught    838 non-null float64
+native_langs                   840 non-null float64
+fluent_nonnative_langs         806 non-null float64
+langs_actively_learning        811 non-null float64
+beginner_nonnative_langs       811 non-null float64
+total_langs                    802 non-null float64
+rank_natural_talent            842 non-null float64
+rank_motivation                843 non-null float64
+rank_environment               842 non-null float64
+rank_selfconfidence            842 non-null float64
+rank_grammar                   842 non-null float64
+rank_speaking_early            841 non-null float64
+rank_have_teacher              842 non-null float64
+rank_listenread                842 non-null float64
+rank_drill_vocab               841 non-null float64
+rank_pronunciation             843 non-null float64
+self_successful                839 non-null float64
+self_talented                  837 non-null float64
+self_enjoy                     840 non-null float64
+self_motivated                 838 non-null float64
+self_noncommitted              839 non-null float64
+self_confident_speaker         836 non-null float64
+self_easy                      838 non-null float64
+self_important_fluent          839 non-null float64
+self_nervous                   835 non-null float64
+mins_per_day                   808 non-null float64
+level_education                832 non-null object
+level_education.1              0 non-null float64
+gender                         842 non-null object
+country_living                 828 non-null object
+country_from                   815 non-null object
+specific_goal                  837 non-null object
+studied_in_uni                 831 non-null object
+dtypes: float64(28), object(6)
+memory usage: 224.3+ KB
+</code></pre></div></div>
+
+<h2 id="overview">Overview</h2>
+
+<p>Now we need to get an overview of the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s">'all'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>[Dataframe not visible in blog]</p>
+
+<p>Already there’s a lot of information if you know what the columns mean. The “rank_” questions asked people how they ranked the importance of certain aspects for learning from 1 to 7. 1 being not at all important and 7 being very important. You can see, for example, that people on average ranked motivation (mean = 6.6) far more highly than natural talent (mean = 3.4).</p>
+
+<p>“self_” questions ask people to rank their themselves from 1 to 7 on any trait. For example, “self_important_fluent” asks people how important reaching fluency is to them.</p>
+
+<p>We can also see some oddities. You might have noticed there is a blank column. In addition, somebody stated they studied for 72,000 minutes per day—that’s 1,200 hours day. Stated differently, this person claims to study 50 days, every day! Now that’s efficiency!</p>
+
+<h2 id="cleaning">Cleaning</h2>
+
+<p>Before we do further analysis let’s do some quick cleaning.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">drop</span><span class="p">([</span><span class="s">"level_education.1"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># duplciate column
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">.</span><span class="n">mins_per_day</span> <span class="o">&lt;</span> <span class="mi">14</span><span class="o">*</span><span class="mi">60</span><span class="p">]</span> <span class="c1"># Study over 14 hours per day ignored
+</span></code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>[Dataframe not visible in blog]</p>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>Now having removed the most egregious survey entries. Let’s take a closer look at some of the stats to learn a bit about the people who took the survey.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Age'</span><span class="p">],</span><span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Age of LL subreddit'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Age'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Respondents'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0, 0.5, 'Respondents')
+</code></pre></div></div>
+
+<p><img src="/assets/llanalysis1/output_14_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Age'</span><span class="p">],</span><span class="n">df</span><span class="p">[</span><span class="s">'mins_per_day'</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Age of LL subreddit'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Age'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'mins per day'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Text(0, 0.5, 'mins per day')
+</code></pre></div></div>
+
+<p><img src="/assets/llanalysis1/output_15_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'mins_per_day'</span><span class="p">])</span>
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2eb0f7c0ac8&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/llanalysis1/output_16_1.png" alt="png" /></p>
+
+<p>We can also view the number of languages our survey respondents claim to know.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">col</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">df_rank1</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">col</span><span class="p">].</span><span class="n">value_counts</span><span class="p">().</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df_rank1</span><span class="p">)</span>
+<span class="n">dr_rank_title</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+<span class="n">df_rank1</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">'bar'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">dr_rank_title</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Total'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Rank'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.0      17
+2.0     123
+3.0     186
+4.0     184
+5.0     116
+6.0      65
+7.0      27
+8.0      20
+9.0      16
+10.0      2
+11.0      1
+12.0      3
+13.0      1
+14.0      2
+20.0      2
+Name: total_langs, dtype: int64
+</code></pre></div></div>
+
+<p><img src="/assets/llanalysis1/output_18_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'total_langs'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2eb0f7ce710&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/llanalysis1/output_19_1.png" alt="png" /></p>
+
+<p>That should do for a rough overview of what our data looks like. To finish, I thought it would be interesting to show you a correlation heatmap of the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="n">heatmp</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">heatmp</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s">"BrBG"</span><span class="p">,</span><span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">heatmp</span>
+</code></pre></div></div>
+
+<p><img src="/assets/llanalysis1/output_21_1.png" alt="png" /></p>
+
+<p>Some interesting correlations stand out. For example:</p>
+<ul>
+  <li>People who rank themselves as talented are more likely to say that talent is an important factor in determining success.</li>
+  <li>People who felt that studying grammar was important also tended to recommend drilling vocabulary.</li>
+  <li>People who rank the environment as being important also tended to rank having a teacher as important also.</li>
+  <li>There is a strong correlation between a variety of self-rankings around high success, talent, motivation, and enjoyment. This grouping was also more likely to report finding language learning easy.</li>
+  <li>People who said they struggled with committing to a single language also tended to speak more languages at a beginner level, but this did not extend to a strong correlation with fluent-level languages. They also reported learning more languages at the same time. Surprise, surprise!</li>
+  <li>It is hard to find any correlation between the number of fluent non-native languages and the types of strategies people tend to recommend. It seems like anything can work.</li>
+  <li>Younger people tended to rank reaching fluency as less important. This is not a very strong correlation, however.</li>
+</ul>
+
+<p>That should do for now. Be sure to keep an eye out for the more advanced analysis in the next post. We’ll be doing some linear regression to see if we can tease out more complex relations. Thanks for reading!</p>]]></content><author><name>S A J Forbes</name></author><category term="dataanalysis" /><category term="language" /><category term="learning" /><category term="LanguageLearning" /><category term="Subreddit" /><category term="Survey" /><category term="data" /><category term="analysis" /><summary type="html"><![CDATA[Welcome to this analysis of the /r/languagelearning subreddit survey data. Before I begin I should mention a bit about myself. In addition to my role as the moderator of the /r/languagelearning subreddit on reddit, I am also the author of the ebook How to Teach Yourself a Foreign Language, which is available for free on my website. I am also a data analyst in my real life.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/cover2.png" /><media:content medium="image" url="http://localhost:4000/images/cover2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Why Language Learning Takes So Long, And What To Do About It - Part 1</title><link href="http://localhost:4000/blog/why-language-learning-takes-so-long-and-what-to-do-about-it/" rel="alternate" type="text/html" title="Why Language Learning Takes So Long, And What To Do About It - Part 1" /><published>2020-11-20T18:46:11+13:00</published><updated>2020-11-20T18:46:11+13:00</updated><id>http://localhost:4000/blog/why-language-learning-takes-so-long-and-what-to-do-about-it</id><content type="html" xml:base="http://localhost:4000/blog/why-language-learning-takes-so-long-and-what-to-do-about-it/"><![CDATA[<p>Language learning takes a long time, usually much longer than any learner anticipates when they begin. At first, it seems pretty easy. Most people start with a bang, putting in the hours and achieving a basic ability in a few months. From there, everything seems to slow down. Suddenly, improving takes forever, and many people quit after months of no appreciable improvement. What’s going on? Do we just lack the ability to learn one language for a long period of time? As it turns out, starting a language is easy, but speaking fluidly and with the grammar of a native speaker is far harder and takes far longer than we imagine. What’s the deal with this discrepancy?</p>
+
+<p>Anything we learn and master can become incredibly complicated if we want it to. Take art. Sculpting developed from simple scratches in rock to incredible lifelike statues that push the limit of human creativity, knowledge, and skill, culminating in the likes of Michelangelo creating David and Pietà. If skills can get more complex without being detrimental, then some inevitably will.</p>
+
+<p>Languages aren’t hard by necessity. Take Esperanto. Esperanto has a very straightforward grammar and does a lot more with a smaller vocabulary. Conlangs (constructed languages) such as Esperanto are often easier to learn because all of the complexities of natural language have been taken out, and as a result they take a fraction of the amount of time to learn as a natural language.</p>
+
+<p>The reason why languages get so complex is largely a mystery. But part of what allows them to grow so complex must be due to the fact they are arbitrary. There is no need to use any specific grammatical rule, word, or phonology in place of any other. This arbitrariness lets languages become unnecessarily complicated without interfering with their function. As long as it doesn’t cause a detrimental strain on adolescents to learn, there will be no strong pressure against complexifying a language. The grammatically simpler languages tend to be those that were, at some point, learned by a large number of adults. Unlike children, adults don’t have a lot of time to dedicate to learning languages and <a href="https://sajforbes.github.io/why-adults-make-mistakes-when-children-dont/">usually learn them imperfectly as a result</a>. Not coincidentally, these are often the larger languages.</p>
+
+<p>The second enabler is likely the enormous amount of time we put into learning languages. Languages are learned over a lifetime. It can be difficult to comprehend quite how much time that is.  There is basically no other skill we do as much or devote as much time to. This time provides massive room for languages and cultures that are incredibly complex to be learned and integrated into our life.</p>
+
+<p>Here is what this means: we are all incredibly capable language users. We are artisans of our culture. We are the Michaelangelo of our language. Over our lifetimes we devote hundreds of thousands of hours to our language and culture and we master it to a degree unparalleled to anything else we do. This is in fact an incredible feat. You just probably didn’t notice this fact is because it’s so damn normal.</p>
+
+<p>Let me try to illustrate. Imagine from the age of two, you were put in a small car. For some reason you were sat in that drivers seat from morning till night. You eventually figure out that the way to get anything you want in life (attention, food, friends, anything) is by driving. Not only that, the better you drive, the more often and more easily you can get it. Imagine you were constantly pushed through new cars and new courses, up until you were driving f1 cars in Monaco. How good do you think do you think you would be at driving by age 18?</p>
+
+<p>My intuition is that you would be incredible. With the right car you’d probably blitz any driver on the course. You’d make Michael Schumacher at his peak look like he’s still on his learner’s license. Much of this would be thanks to the fact that you’d have surpassed his time spent behind the wheel by a factor of ten or more. And that would show.</p>
+
+<p>Now, driving may have natural limits that prevent you outperforming the best F1 drivers to a significant degree. But, as we have discussed, the limits of language and culture are far higher. From the narrow river of basic structures and beginner phrases, languages flow into an ocean of grammatical complexity, subtleties of word use, irregularities, cultural references, and idioms. That takes time to master.</p>
+
+<p>The reason language learning seems faster at the beginning is because basic structures let you use the language in its most basic form. But beginner structures only cover a fraction of what is out there to be learned, and that complexity takes most of a native speaker’s childhood to master. Native speakers get there by surpassing adult learners’ time with the language by more than an order of magnitude.</p>
+
+<p>In conclusion, languages take a long time to learn because they are the single most complex thing any human does. It might not feel that way, since you’ve spent such a long time using your native language it feels easy, but your language ability is an incredible feat. Don’t let the relatively fast progress of the beginner stages fool you, reaching that high level in another language is no small task.</p>
+
+<p>Does that mean you need 18 years to reach a very high level? Not necessarily. As we will see in part 2, native speakers don’t have all the advantages.</p>]]></content><author><name>S A J Forbes</name></author><category term="blog" /><category term="language learning" /><category term="languages" /><category term="learning" /><summary type="html"><![CDATA[Language learning takes a long time, usually much longer than any learner anticipates when they begin. At first, it seems pretty easy. Most people start with a bang, putting in the hours and achieving a basic ability in a few months. From there, everything seems to slow down. Suddenly, improving takes forever, and many people quit after months of no appreciable improvement. What’s going on? Do we just lack the ability to learn one language for a long period of time? As it turns out, starting a language is easy, but speaking fluidly and with the grammar of a native speaker is far harder and takes far longer than we imagine. What’s the deal with this discrepancy?]]></summary></entry><entry><title type="html">Why Adults Make Mistakes When Children Don’t</title><link href="http://localhost:4000/blog/why-adults-make-mistakes-when-children-dont/" rel="alternate" type="text/html" title="Why Adults Make Mistakes When Children Don’t" /><published>2020-10-02T18:46:11+13:00</published><updated>2020-10-02T18:46:11+13:00</updated><id>http://localhost:4000/blog/why-adults-make-mistakes-when-children-dont</id><content type="html" xml:base="http://localhost:4000/blog/why-adults-make-mistakes-when-children-dont/"><![CDATA[<p>Why do children seem to have a natural ability to learn languages perfectly that adults lack? Are their brains inherently better at language learning than us adults, or are they better positioned to take advantage of a natural ability we all possess?</p>
+
+<p>Wherever you fall, most people tend to say the answer is something in-between.</p>
+
+<p>In this post I’m going to argue that it’s their environment rather than innate talent that lets children learn to such a high level, and we can take advantage of this to inform how we learn.</p>
+
+<h2 id="mistakes-and-errors">Mistakes and errors</h2>
+
+<p>First, we need to mark an important distinction between mistakes and errors.</p>
+
+<p><em>Mistakes</em> are accidental. The learner knows they are wrong. For example, you might be taught to use the subjunctive in Spanish, but will often forget to use it when you are speaking or writing. You would recognise the mistake if you had a chance to read your own output carefully.</p>
+
+<p><em>Errors</em> are incorrect use of the language caused by a learner’s lack of knowledge. An example of an error is failing to use the subjunctive because you are not aware it should be used in a certain context. In this case, even if you had the chance to read what you wrote carefully, you would still fail to correct yourself.</p>
+
+<p>Mistakes are a natural part of speaking and become less common over time with practice. Even native speakers occasionally make mistakes. Errors, on the other hand, tend to stay around much longer and are more difficult to fix. For that reason, it is errors rather than mistakes that we should be focusing on.</p>
+
+<h2 id="why-adults-make-errors">Why adults make errors</h2>
+
+<p>There are two general sources of errors:</p>
+
+<ol>
+  <li>
+    <p>Your native language interferes with your target language</p>
+  </li>
+  <li>
+    <p>You misuse a rule or word due to a lack of experience</p>
+  </li>
+</ol>
+
+<p>Unlike adults, children do not make the first type of error because they have no dominant language to interfere. While bilingual children do occasionally mix their languages, they quickly learn to separate them.</p>
+
+<p>Errors fossilise though repeated use, a common learner problem.</p>
+
+<p>To help us understand how these errors arise in adults, I will employ the analogy of a garden path.</p>
+
+<h3 id="the-garden-path">The Garden Path</h3>
+
+<p>Think of your native language as a large garden path with thousands of signs and crossroads. Each path is a word or piece of grammar. The branching paths are the many different words or grammatical forms in your mind. A crossroad is a point where you choose the next word or form (correct or not) to make a sentence. Language functions by the speaker following this path to reach a destination—their intended meaning.</p>
+
+<p><img src="https://images.unsplash.com/photo-1601233204581-229f503a9a66?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1489&amp;q=80" alt="Path" /> <em>This part of the path leads to the sentence, “Couldn’t you have picked a simpler analogy?”</em></p>
+
+<p>Your native language is a well-built path. There are paved roads and clear signs directing you to all the correct words and forms you can use when communicating. You seamlessly move from path to path to eventually create your intended meaning.</p>
+
+<p>Learning a language is like constructing a new set of paths overlapping the first. At first, these new paths are muddy tracks in the bush, hard to see and uncomfortable to follow. You can imagine a shared path as a concept that overlaps in both languages, such as <em>dog</em> in English and <em>chien</em> in French. Building knowledge of your target language would be like improving the state of these new paths and adding a set of signs to help you navigate them. Reading and listening is like watching other people walk your garden. Speaking and writing is like walking it yourself.</p>
+
+<p>Using this analogy, we can see how errors arise.</p>
+
+<p>The first reason learners tend to make errors is they use the familiar paths when they should be taking the new ones of their target language. In other words, they <strong>superimpose the structure and logic of their native language over that of their target language</strong>. When you use a language for the first time, most of the paths are incomplete or missing. Even if your vocabulary is up to the task—you can see the path you need to get to—your grammar knowledge way be incomplete, meaning you’re not sure how to get there. The result is that learners often unconsciously follow the nice, clear signs and paths of their native language.</p>
+
+<p>The second kind of error occurs when <strong>learners apply rules incorrectly or incompletely</strong>. It is very difficult to break away from using our native-language paths to build new ones. To help us we often use teachers and other resources to quickly build artificial paths we can use early on. Language paths are so complex that, even when you have a teacher or resource to explain how the language works, the path you build won’t exactly resemble the one taken by native speakers.</p>
+
+<p>The goal of most language learners is generally to find <em>some way</em> to be understood. That involves taking any path available, even if they have never seen a native speaker walk that path before. With both kinds of errors you will get to the end of the path—people will probably understand you—but you won’t sound like a native speaker.</p>
+
+<h2 id="what-about-children">What about children?</h2>
+
+<p>Children have no well-trodden paths or clear signposts to use. They have no choice but to build their garden from scratch by watching their parents tread through their garden and following their lead. Building your garden is much harder work than modifying it. However, building it from scratch means you don’t have any template to follow except the one given to you by those around you.</p>
+
+<p>Children build paths with thousands of hours of input. When they first speak, they scarcely innovate at all. They repeat, to the best of their ability, forms and words they have already heard hundreds of times. They rely on the well-trodden paths and signs used by those around them.</p>
+
+<p>Pay attention next time you see an adult interact with a young child. Often, questions posed by adults will be met with silence. This occurs as the child, not knowing how to express themselves, chooses to say nothing at all. Parents often subconsciously modify their questions into yes/no forms to reduce the communicative burden on the child.</p>
+
+<p>Adult learners are not given the same opportunities for level-appropriate practice as children, nor do they tend to benefit from as much repetition before they need to speak. Rather than being given the chance to gradually build their own paths, they must unconsciously rely on existing ones.</p>
+
+<h2 id="so-what-should-the-adult-learner-do">So what should the adult learner do?</h2>
+
+<p>Adults differ from children in several key ways. They have a well-made path already in regular use, far more distractions and responsibilities, and an inherently different learning environment. On the other hand, adults have greater cognitive ability they can leverage in their learning. Your language learning should reflect this.</p>
+
+<p>The key insight of the garden path analogy is that if you want to learn to speak accurately, you need to see natives walk the path themselves. Languages, as with almost all knowledge, are built on a foundation of memory. To build your language knowledge you need repetition and an environment that consistently challenges your memory without being overly difficult. This describes a child’s learning environment almost perfectly. For an adult, it is impossible to completely replicate this environment, but you can build something like it.</p>
+
+<p>What you should do depends on your goals.</p>
+
+<p>Are you unconcerned about speaking perfectly and only interested in getting from A to B? Quickly building your own imperfect paths is the best way to go. Actively study as much as you need then quickly move to using your language for whatever you like. Practise until you feel comfortable.</p>
+
+<p>If you want to master your language, the story is different.</p>
+
+<p>Learning a language to a high level means building your garden to resemble a native speaker’s as much as possible. Children eventually become native speakers for a good reason, and you should aim to replicate some parts of their process.</p>
+
+<p>Don’t feel pressured to begin speaking or writing early. Instead, <strong>focus on listening and reading</strong>. Any early attempt at speech will likely result in you following a path comprising a combination of the artificial structures of language instruction and the well-trodden default paths of your native language. This happens as you hunt for words and constructions you know in your native language, then search for the target-language equivalent.</p>
+
+<p>Focus on <strong>learning the language in context</strong>. Active study should consist of learning thousands of natural, common phrases rather than drilling single words or isolated grammatical forms. Passive study should involve huge amounts of enjoyable, level-appropriate content. Ideally, you will repeat this content multiple times. Learn the most common constructions and forms. Learn them well. When you practise speaking, you should generally stick to them. You can start to form more complex sentences later on, once those forms are familiar to you from your input.</p>
+
+<p>You can <strong>solidify your paths by speaking and writing</strong>. This is a powerful tool—you quickly build the quality of your garden path by navigating it yourself. However, without correction, your errors can fossilise through repeated use. The more you use unfamiliar forms and words when you speak, the more you risk building and strengthening an unnatural path. While you can fix these paths later, it will take time and effort. Most early errors will not fossilise. Young children first attempting to speak make errors all the time. As they get older, they rapidly progress to using simple constructions, making errors only occasionally. From there, their speech becomes more complex only gradually. Adult learners generally challenge themselves with more complex sentences far quicker. This is where the possibility of fossilised errors increases.</p>
+
+<p>While children don’t often study grammar, <strong>language lessons can benefit adult learners</strong>. Rather than enabling you to use the language, their true function should be to introduce you to the paths that natives are treading. This is a useful jump-start that can also help you avoid unconsciously following your native language’s paths.</p>
+
+<p><strong>Get feedback and correction</strong>. This is a good way to improve your speech and writing early while reducing the risk your errors will fossilise. This can be done by a friend, tutor, family member, or language exchange partner. Make sure they understand that you would like your errors to be corrected. Most people will avoid correcting others’ speech to facilitate smooth conversation.</p>
+
+<p>Finally, <strong>be patient</strong>. It will take huge amounts of exposure to the language until the path is clear enough that you can tread it yourself comfortably. Children benefit from a lot more input and repetition than adult learners, and that is the true path to fluency.</p>
+
+<p>This does not mean that you have to suffice with only listening and reading for your first two years of language learning. You can start by walking the artificially built paths to communicate, using the language as you were taught. There is a trade-off. Eventually, you will have to go back to spot where you went wrong. However, it might be you find this middle ground a lot more satisfying, letting you build friendships and have interesting conversations far quicker than a child could.</p>
+
+<p><em>Image credit <a href="https://unsplash.com/photos/YLMs82LF6FY">Sai De Silva</a></em></p>]]></content><author><name>S A J Forbes</name></author><category term="blog" /><summary type="html"><![CDATA[Why do children seem to have a natural ability to learn languages perfectly that adults lack? Are their brains inherently better at language learning than us adults, or are they better positioned to take advantage of a natural ability we all possess?]]></summary></entry></feed>
