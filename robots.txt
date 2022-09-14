@@ -1,1 +1,1 @@
-Sitemap: https://sajforbes.nz/pages/sajforbes/sitemap.xml
+Sitemap: https://sajforbes.nz/sitemap.xml
