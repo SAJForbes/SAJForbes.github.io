@@ -131,8 +131,6 @@
             </li><li class="masthead__menu-item">
               <a href="/posts/">Posts</a>
             </li><li class="masthead__menu-item">
-              <a href="/tags/">Tags</a>
-            </li><li class="masthead__menu-item">
               <a href="/languageguide/introduction/">Language Guide</a>
             </li></ul>
         
@@ -290,7 +288,64 @@
 
       <section class="page__content" itemprop="text">
         
-        
+        <link rel="stylesheet" href="/assets/css/contact.css" />
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<script type="text/javascript">
+    (function() {
+            emailjs.init({
+              publicKey: "PXAML6fws96_Mz5hW",
+            });
+        })();
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+
+<form id="form">
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" required="" />
+    </div>
+    <div class="field"> 
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required="" />
+    </div>
+    <div class="field">
+      <label for="message">Message</label>
+      <textarea type="text" name="message" id="message" required=""> </textarea> 
+    </div>
+
+<div class="field">
+    <div class="g-recaptcha" data-sitekey="6LfpdW4pAAAAAKpS8SfTcvr_NgP0RpacbSFMMnRr"></div>
+</div>
+
+<input type="submit" id="button" class="btn" value="Send Email" style="margin-top: 15px;" />
+  </form>
+<script>
+    const btn = document.getElementById('button');
+    document.getElementById('form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    btn.value = 'Sending...';
+    const serviceID = 'default_service';
+    const templateID = 'matan_h_contact_form';
+    //
+    emailjs.sendForm(serviceID, templateID, this)
+    .then(() => {
+    btn.value = 'Send Email';
+    document.getElementById("form").hidden = true;
+    document.getElementById("thank-you").hidden = false
+    }, (err) => {
+    btn.value = 'Send Email';
+    alert(JSON.stringify(err));
+    });
+    });
+</script>
+
+<div class="thank-you" id="thank-you" hidden="">
+    <h1>Thanks for contacting me!</h1>
+    <p>I will be in touch with you shortly</p>
+</div>
 
         
       </section>
